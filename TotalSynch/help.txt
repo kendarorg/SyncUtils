@@ -1,0 +1,51 @@
+#At the very first character of a line are considered comments
+Compares two directories and synchronize the relative content.
+Symlinks and Reparse points are avoided.
+#If required a check is made for file streams under NTFS file
+#system, for other situations check the s option
+
+totalSynch -f (master dir) -t (slave dir) (-o[parameters]) [-l secondsLeak]
+     [+... -p (file pattern)]
+
+     -f        The first directory involved (in case of unidirectional sync,
+               this will be the source directory, must follow a directory
+     -t        The second directory involved (in case of unidirectional sync,
+               this will be the destination directory, must follow a directory
+     -l        Maximum difference in seconds allowed for two files to be
+               considered modified in the same time (default to 10 seconds)
+     -p        The file pattern to blacklist, with the standard * and ?
+               syntax (* for any number of any character,? for any single
+               character)
+     -h        Prints this help
+
+     -o        Options, may be a combination of the following (only once for
+               each single sub option):
+
+     Standard sub options:
+          v         Verify only modification date and size to check the
+                    differences between files
+          a         Analyze only, don't make any real modifications but show
+                    differences and modifications that will be made
+          u         When two files have different dates use the most recent
+                    one ignoring the definition of master or slave directory,
+                    inhibits the [w] composed sub option;
+#         s         Copy data streams (slow, really, you don't want that). If
+#                   not working on one NTFS disk and one FAT, the streams are
+#                   renamed as [filename.ext]_STR_[streamname.ext].
+#                   The rules followed are the one specified in crw options.
+
+     Composed sub options:
+          These sub options can be further enriched with the definition of the
+          direction of the action everyone of them can be written alone or
+          followed by [f] or [t] or [b] that means use the master, the slave
+          or both the directories
+          c         Copy the new files from the master (default) or following
+                    the direction specifications before. Inhibits the [r]
+                    option if in contrast (e.g. a [cs] command will inhibit a
+                    [rs] command)
+          r         Remove the new files from the slave (default)  or following
+                    the direction specifications before. Inhibits the [c]
+                    option if in contrast
+          w         Consider the master as the sole source (default), inhibits
+                    the [u] sub option, can't accept the [b] direction, only
+                    [f] or [t]

@@ -1,0 +1,34 @@
+Poor Man's choice
+     -h        Help
+     -l        Max answer len, between 1 and 99 (default 80)
+     -r        Max retry, between 1 and 9 (default 3)
+     -s        String to show asking to retry (default "Retry")
+     -a        String to show telling that the operation
+               aborted (default "Abort")
+     -e        Name of the file that will be created containing the variable,
+               (default "CHOICE")
+     -x        Character to use as an abort sign (default '$')
+
+Batch to load the file into a variable
+     @echo off
+     cls
+     PoorChoice -e TOTAL_CHOICE
+     setlocal enabledelayedexpansion
+     set CHOICE_VAR=
+     for /f "delims=" %%a in (TOTAL_CHOICE) do (
+          set currentline=%%a
+          set CHOICE_VAR=!%CHOICE_VAR%!currentline!
+     )
+
+echo %CHOICE_VAR%
+
+Caveats:
+1)   If the file is large, your environment will run out of space and you
+     will not be able to place the file's entire contents into your variable.
+2)   The above loop will skip any blank lines.
+3)   The filecontents variable will still be just a single line, as variables
+     can't hold multiple lines.
+
+
+
+
